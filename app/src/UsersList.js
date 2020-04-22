@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function UsersList(){
-    const [status, setstatus] = useState()
+    const [message, setMessage] = useState()
     const [dataList, setDataList] = useState([]);
 
     const getUsersList = () => {
@@ -10,10 +10,13 @@ function UsersList(){
     .get("http://localhost:5000/api/users")
     .then(res => {
         setDataList(res.data.users);
-        setstatus(res.status)
-        console.log(status)
+        setMessage(res.message)
+        console.log('res: ', res)
     })
-    .catch(err => console.log(err.response));
+    .catch(err => {
+            console.log('err: ', err.response);
+            setMessage(err.response.data.message)
+        })
     };
 
     useEffect(() => {
@@ -21,6 +24,7 @@ function UsersList(){
     }, []);
     return(
         <div>
+            <p>{message}</p>
             {dataList.map(item => {
                 return(
                 <p>{item.username}</p>
