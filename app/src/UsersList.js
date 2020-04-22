@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { axiosWithAuth } from './axiosWithAuth';
 
 function UsersList(){
     const [message, setMessage] = useState()
     const [dataList, setDataList] = useState([]);
 
     const getUsersList = () => {
-    axios
+    axiosWithAuth()
     .get("http://localhost:5000/api/users")
     .then(res => {
-        setDataList(res.data.users);
+        setDataList(res.data);
         setMessage(res.message)
         console.log('res: ', res)
     })
